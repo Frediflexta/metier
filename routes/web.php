@@ -11,10 +11,17 @@
 |
 */
 
-$router->get('/', function () use ($router) {
+$router->get('/', function() use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => '/api/v1'], function () use($router) {
-    $router->get('/employers', 'EmployersController@index');
+$router->group(['prefix' => '/api/v1'], function() use($router) {
+    $router->group(['prefix' => '/employers'], function() use($router) {
+        $router->get('/', 'EmployersController@index');
+        $router->get('/{id}/jobs', 'EmployersController@show');
+    });
+
+    // $router->group(['prefix' => '/jobs'], function() use($router) {
+    //     $router->get('');
+    // });
 });
