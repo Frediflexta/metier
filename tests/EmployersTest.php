@@ -43,7 +43,7 @@ class EmployersTest extends TestCase
     public function testEmployerDoesNotExist()
     {
         factory(Employer::class)->create();
-        $response = $this->get('/api/v1/employers/10');
+        $response = $this->get('/api/v1/employers/10/jobs');
         $response->assertResponseStatus(404);
     }
 
