@@ -13,7 +13,11 @@ class EmployersController extends Controller
    */
   public function index()
   {
-    return response()->json(Employer::with('jobs')->get(), 200);
+    return response()->json([
+      'success' => true,
+      'message' => 'Employers were successfully retrieved',
+      'data' => Employer::with('jobs')->get(),
+    ], 200);
   }
 
   /**
@@ -24,14 +28,24 @@ class EmployersController extends Controller
   public function show($id)
   {
     if((int)$id === 0) {
-      return response()->json(['error' => 'invalid parameter'], 400);
+      return response()->json([
+        'success' => false,
+        'error' => 'invalid parameter'
+      ], 400);
     }
 
     if(!Employer::find($id)) {
-      return response()->json(['error' => 'Employer does not exist'], 404);
+      return response()->json([
+        'success' => false,
+        'error' => 'Employer does not exist'
+      ], 404);
     }
 
     $employer = Employer::with('jobs');
-    return response()->json($employer->find($id), 200);
+    return response()->json([
+      'success' => true,
+      'message' => 'Successfully retrieved an employer and their jobs',
+      'data' => $employer->find($id)
+    ], 200);
   }
 }
