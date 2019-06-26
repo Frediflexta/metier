@@ -23,5 +23,6 @@ $router->group(['prefix' => '/api/v1'], function() use($router) {
 
     $router->group(['prefix' => '/jobs'], function() use($router) {
         $router->get('/', 'JobsController@index');
+        $router->post('/', 'JobsController@store');
     });
 });

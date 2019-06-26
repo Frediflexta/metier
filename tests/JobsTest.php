@@ -4,6 +4,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 use App\Job;
+use App\Employer;
 
 class JobsTest extends TestCase
 {
@@ -72,5 +73,42 @@ class JobsTest extends TestCase
 
     $response = $this->get('/api/v1/jobs?limit=5&&offset=5');
     $response->assertResponseStatus(200);
+  }
+
+  /**
+   * Create a new job
+   *
+   * @return void
+   */
+  public function testCreateNewJob()
+  {
+    $employer = factory(Employer::class)->create();
+    $newJob = [
+      'title' => 'Testing',
+      'description' => 'This describes the test',
+      'skills' => 'python, flasjk',
+      'employer_id' => $employer->id
+    ];
+
+    $response = $this->post('/api/v1/jobs', $newJob);
+    $response->assertResponseStatus(201);
+  }
+
+  /**
+   * Create a new job with an employer that does no exist
+   *
+   * @return void
+   */
+  public function testCreateNewJobWithNonExistngEmployer()
+  {
+    $newJob = [
+      'title' => 'Testing',
+      'description' => 'This describes the test',
+      'skills' => 'python, flasjk',
+      'employer_id' => 2
+    ];
+
+    $response = $this->post('/api/v1/jobs', $newJob);
+    $response->assertResponseStatus(404);
   }
 }

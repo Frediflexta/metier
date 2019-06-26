@@ -17,7 +17,7 @@ class CreateJobsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('description');
-            $table->text('skills_required');
+            $table->text('skills');
             $table->foreign('employer_id')
             ->references('id')->on('employers')
             ->onDelete('cascade');
