@@ -41,4 +41,30 @@ class JobsController extends Controller
       'data' => $jobs->get()
     ], 200);
   }
+
+  /**
+   * Store a new job.
+   *
+   * @param  Request  $request
+   * @return Response
+   */
+  public function store(Request $request)
+  {
+    $this->validate($request, [
+      'title' => 'required|unique:jobs|max:255',
+      'description' => 'required|unique:jobs',
+      'skills' => 'required',
+      'employer_id' => 'required'
+    ]);
+
+    if(!Employer::find($request->employer_id)) {
+      return response()->json([
+        'success' => false,
+        'error' => 'Employer does not exist, please register first'
+      ], 404);
+    }
+
+    $newJob = Job::create($request->all());
+    return response()->json($newJob, 201);
+  }
 }

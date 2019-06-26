@@ -14,7 +14,7 @@ class Job extends Model
    * @var array
    */
   protected $fillable = [
-    'title', 'description', 'skill_required', 'employer_id'
+    'title', 'description', 'skills', 'employer_id'
   ];
 
   /**
